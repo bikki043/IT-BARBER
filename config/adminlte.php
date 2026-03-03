@@ -40,11 +40,25 @@
                 'icon' => 'fas fa-fw fa-list',
                 'active' => ['admin/services*'],
             ],
+
+            [
+                'text' => 'จัดการเกี่ยวกับเรา',
+                'url'  => 'admin/about',
+                'icon' => 'fas fa-fw fa-info-circle',
+                'active' => ['admin/about*'],
+            ],
+
             [
                 'text' => 'จัดการผลงาน (รูปภาพ)',
                 'url'  => 'admin/works',
                 'icon' => 'fas fa-fw fa-images',
                 'active' => ['admin/works*'],
+            ],
+
+            [
+                'text' => 'จัดการการติดต่อ',
+                'url'  => 'admin/contact', // ต้องตรงกับ route ที่เราตั้ง
+                'icon' => 'fas fa-fw fa-envelope',
             ],
 
             [
@@ -67,6 +81,9 @@
                 'url'  => 'admin/analytics', // ต้องตรงกับ route ที่เราตั้ง
                 'icon' => 'fas fa-fw fa-chart-bar',
             ],
+
+            
+
 
             // เมนูบัญชี
             ['header' => 'ACCOUNT SETTINGS'],

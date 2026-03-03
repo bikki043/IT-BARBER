@@ -302,11 +302,10 @@
         </a>
 
         <div class="nav-menu d-none d-lg-block">
-            <a href="{{ url('/') }}">Home</a>
-            <a href="{{ route('shop.index') }}" class="active">Shop</a>
-            <a href="{{ url('/#gallery') }}">Gallery</a>
-            <a href="{{ url('/#location') }}">Location</a>
-            <a href="{{ url('/#contact') }}">Contact</a>
+            <a href="{{ url('/') }}">Dashboard</a>
+            <a href="{{ route('about') }}">About Us</a></li>
+            <a href="{{ route('shop.index') }}" class="active">Shop</a>           
+            <a href="{{ url('contact') }}">Contact</a>
         </div>
 
         <div style="width: 45px;" class="d-none d-lg-block"></div>

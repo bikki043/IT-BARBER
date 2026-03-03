@@ -12,9 +12,12 @@ return new class extends Migration
     public function up()
     {
         Schema::table('customers', function (Blueprint $table) {
-            // เพิ่มคอลัมน์เก็บ ID จาก Google
-            $table->string('google_id')->nullable()->after('id');
-            // ปรับให้ password เป็น null ได้ (กรณีสมัครผ่าน Google)
+            // ✅ เช็คก่อนว่ามี google_id หรือยัง ถ้าไม่มีค่อยเพิ่ม
+            if (!Schema::hasColumn('customers', 'google_id')) {
+                $table->string('google_id')->nullable()->after('id');
+            }
+
+            // ✅ ปรับให้ password เป็น null ได้
             $table->string('password')->nullable()->change();
         });
     }

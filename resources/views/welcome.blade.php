@@ -11,6 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;700&family=Oswald:wght@500;700&family=Montserrat:wght@900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
@@ -28,42 +29,71 @@
 
         /* --- Navbar --- */
         .navbar-custom {
-            padding: 20px 50px;
+            padding: 15px 50px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(0, 0, 0, 0.8);
+            /* แยกโลโก้ไปซ้าย ไอคอนไปขวา */
+            background: rgba(0, 0, 0, 0.9);
             position: sticky;
             top: 0;
             z-index: 1000;
+            border-bottom: 1px solid rgba(255, 204, 0, 0.2);
         }
 
         .nav-logo {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            /* ปรับขนาดให้พอดี */
+            height: 70px;
             border-radius: 50%;
             border: 2px solid var(--gold);
-            box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+            transition: 0.3s;
         }
 
+        /* ส่วนที่ทำให้เมนูอยู่กึ่งกลางเป๊ะ */
         .nav-links {
             list-style: none;
             display: flex;
             margin: 0;
             padding: 0;
+            position: absolute;
+            /* ดีดออกจากแถวปกติ */
+            left: 50%;
+            /* ไปเริ่มที่กลางจอ */
+            transform: translateX(-50%);
+            /* ดึงตัวเองกลับมาครึ่งหนึ่งเพื่อให้กลางเป๊ะ */
         }
 
         .nav-links li {
-            margin: 0 15px;
+            margin: 0 20px;
         }
 
         .nav-links a {
             color: #fff;
             text-transform: uppercase;
             font-size: 0.9rem;
-            font-weight: 600;
+            font-weight: 700;
+            letter-spacing: 1px;
             text-decoration: none;
             transition: 0.3s;
+            position: relative;
+        }
+
+        /* เพิ่มเส้นใต้สวยๆ เวลา Hover */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
         }
 
         .nav-links a:hover,
@@ -71,39 +101,54 @@
             color: var(--gold);
         }
 
+        /* ส่วนไอคอนฝั่งขวา */
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            z-index: 10;
+            /* ให้กดได้ไม่โดนเมนูบัง */
+        }
+
         .nav-icons i {
             color: #fff;
             margin-left: 20px;
-            font-size: 1.2rem;
-            cursor: pointer;
+            font-size: 1.3rem;
             transition: 0.3s;
         }
 
         .nav-icons i:hover {
             color: var(--gold);
+            transform: scale(1.1);
         }
 
         .btn-login-header {
             background: transparent;
             border: 1px solid var(--gold);
             color: var(--gold);
-            padding: 8px 20px;
+            padding: 8px 22px;
             border-radius: 50px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.85rem;
             transition: 0.3s;
             text-decoration: none !important;
+            margin-left: 20px;
         }
 
         .btn-login-header:hover {
             background: var(--gold);
             color: #000;
-            box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.4);
         }
 
-        .dropdown-item:hover {
-            background: #222 !important;
-            color: var(--gold) !important;
+        /* จัดการมือถือ: ถ้าจอน้อยกว่า 992px ให้ซ่อนเมนูกลาง (เพราะจะทับโลโก้) */
+        @media (max-width: 991px) {
+            .nav-links {
+                display: none;
+            }
+
+            .navbar-custom {
+                padding: 10px 20px;
+            }
         }
 
         /* --- Hero Slider --- */
@@ -303,11 +348,9 @@
         </div>
         <ul class="nav-links">
             <li><a href="#" class="active">Dashboard</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Gallery</a></li>
-            <li><a href="#">Branches</a></li>
+            <li><a href="{{ route('about') }}">About Us</a></li>
             <li><a href="{{ route('shop.index') }}">Shop</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="{{ route('contact.index') }}">Contact</a></li>
         </ul>
         <div class="nav-icons d-flex align-items-center">
             <a href="{{ route('cart.index') }}" class="position-relative mr-4"
@@ -363,7 +406,7 @@
     <div id="itBarberHero" class="carousel slide carousel-fade" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <div class="hero-carousel-item"
+                <div class="hero-carousel-item" data-aos="fade-up"
                     style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8)), url('https://img5.pic.in.th/file/secure-sv1/Gemini_Generated_Image_96zjoa96zjoa96zj.png');">
                     <p style="letter-spacing: 5px; color: var(--gold);">ESTABLISHED 2026</p>
                     <h1 class="hero-title">IT<br><span>BARBER SHOP</span></h1>
@@ -371,7 +414,7 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <div class="hero-carousel-item"
+                <div class="hero-carousel-item" 
                     style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8)), url('https://img5.pic.in.th/file/secure-sv1/Gemini_Generated_Image_96zjoa96zjoa96zj.png');">
                     <p style="letter-spacing: 5px; color: var(--gold);">PREMIUM CUTS</p>
                     <h1 class="hero-title">CLASSIC<br><span>STYLE</span></h1>
@@ -387,7 +430,7 @@
         </a>
     </div>
 
-    <section id="portfolio" class="py-5" style="background-color: #050505; color: #fff; overflow: hidden;">
+    <section id="portfolio" class="py-5" style="background-color: #050505; color: #fff; overflow: hidden;" data-aos="fade-up">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
 
@@ -580,7 +623,7 @@
         </style>
     </section>
 
-    <section class="py-5" style="background: #000; border-top: 1px solid #111;">
+    <section class="py-5" style="background: #000; border-top: 1px solid #111;"data-aos="fade-up">
         <div class="container">
             <div class="section-title text-center mb-5">
                 <h2 style="color: #fff; font-family: 'Oswald';">OUR MASTER BARBERS</h2>
@@ -624,7 +667,7 @@
         </div>
     </section>
 
-    <section class="py-5" style="background: #050505; border-top: 1px solid #111;">
+    <section class="py-5" style="background: #050505; border-top: 1px solid #111;"data-aos="fade-up">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4">
@@ -653,7 +696,7 @@
     </section>
 
 
-    <div class="quote-container">
+    <div class="quote-container"data-aos="fade-up">
         <div class="quote-overlay"></div>
         <div class="quote-content container">
             <i class="fas fa-quote-left"></i>
@@ -762,6 +805,15 @@
                     }
                 }
             });
+        });
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000, // ความเร็ว 1 วินาที
+            once: true, // เล่นรอบเดียวตอนเลื่อนมาเจอ
+            offset: 100 // เริ่มเล่นเมื่อเลื่อนมาถึงระยะ 100px
         });
     </script>
 </body>

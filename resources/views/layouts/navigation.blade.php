@@ -10,7 +10,7 @@
         <li><a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}">Home</a></li>
         
         @if (Auth::guard('customer')->check())
-            <li><a href="{{ route('booking.history') }}" class="{{ request()->routeIs('booking.history') ? 'active' : '' }}">ประวัติการจอง</a></li>
+            <li><a href="{{ route('booking.history') }}" class="{{ request()->routeIs('booking.history') ? 'active' : '' }}"></a></li>
         @endif
 
         <li><a href="{{ route('shop.index') }}">Shop</a></li>

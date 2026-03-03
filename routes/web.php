@@ -27,6 +27,12 @@ use App\Models\Customer;
 use App\Models\Appointment;
 use App\Models\OrderItem;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
+use App\Http\Controllers\Admin\AboutManagementController;
+use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\ContactController as PublicContactController;
 
 
 // ใส่ไว้ด้านนอกกลุ่ม Middleware 'auth' นะครับ
@@ -89,7 +95,8 @@ Route::prefix('customer')->name('customer.')->group(function () {
     });
 });
 
-
+// about us management
+Route::get('/about-us', [AboutUsController::class, 'index'])->name('about');
 
 // ระบบจองคิว
 Route::get('/booking', [BookingController::class, 'index'])->name('book.index');
@@ -103,6 +110,10 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{id}', [CartController::class, 'store'])->name('cart.store');
 Route::post('/cart-update', [CheckoutController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+
+// ระบบ contact us
+// เขียนแบบระบุ Path เต็ม (ไม่ต้องมี use ที่หัวไฟล์)
+Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');
 
 
 
@@ -165,17 +176,33 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
 
 
-   // 1. กลุ่ม Appointments (จัดการคิวและ PDF)
+    //contact us management
+    Route::get('/contact', [ContactController::class, 'edit'])->name('contact.edit');
+    Route::put('/contact', [ContactController::class, 'update'])->name('contact.update');
+
+
+    Route::get('/about', [AboutManagementController::class, 'edit'])->name('about.edit');
+
+    // หน้าบันทึกข้อมูล (แก้ตรงนี้!)
+    Route::put('/about/update', [AboutManagementController::class, 'update'])->name('about.update');
+
+    // รูทสำหรับลบรูปภาพแกลเลอรีเกี่ยวกับเรา
+    Route::delete('/about/image/{id}', [AboutManagementController::class, 'destroyImage'])
+        ->name('about.image.destroy');
+
+
+
+    // 1. กลุ่ม Appointments (จัดการคิวและ PDF)
     Route::prefix('appointments')->name('appointments.')->group(function () {
         // รายงานรายวัน
         Route::get('/report-pdf', [AdminController::class, 'reportPDF'])->name('reportPDF');
-        
+
         // ใบเสร็จรายบุคคล
         Route::get('/receipt-pdf/{id}', [AdminController::class, 'receiptPDF'])->name('receiptPDF');
 
         // รายงานรายเดือน (แก้ไขบรรทัดนี้)
         Route::get('/report-monthly', [AdminController::class, 'reportMonthlyPDF'])->name('reportMonthlyPDF');
-    
+
         // สถานะการจอง
         Route::patch('/complete/{id}', [AppointmentController::class, 'complete'])->name('complete');
         Route::patch('/{id}/cancel', [AdminController::class, 'cancelAppointment'])->name('cancel');
